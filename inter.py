@@ -14,25 +14,34 @@ for n in range(tam):
         
         if(n+1 > tam):
             break
-    
+        # operacao com inversa de matriz para obter a resolucao do sistema de equacoes
         A = np.array([[dias[n], 1], [dias[k], 1]])
         B = np.array([dol[n], dol[k]])
         X = np.linalg.inv(A).dot(B)
 
         print("PAR -> (%d, %f) , (%d, %f)" %(dias[n], dol[n], dias[k], dol[k]))
+
+        # adiciona os dados das duas funcoes, que foram usadas para encontrar os coeficiente (m,b)
+        # mantendo uma referência entre os index's
         dados.append([ ( dias[n], dol[n]) ,  (dias[k], dol[k] ) ])
         coeficientes.append(X)
         # print( X)
 
-valores = []
+
+# o minimo é um valor muito grande inicialmente, para que qualquer valor seja menor que o inicial
 minimo = 1212133123123131313232
 index = 0
 for i in range(len(coeficientes)):
     soma = 0
     for n in range(tam):
+        # soma os módulos de cada função com os valores de (m,b) encontrados na iteração anterior
         soma += abs(dias[n]*coeficientes[i][0] + coeficientes[i][1] - dol[n])
+    
+    #verifica se a soma atual é a mínima
     if(soma < minimo):
         minimo = soma
+
+        #obtem o número da interação atual, para recuperar os dados dos coeficientes
         index = i
 
 print("O valor mínimo:", minimo)
